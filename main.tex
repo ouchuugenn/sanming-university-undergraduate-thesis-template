@@ -1,0 +1,298 @@
+\documentclass[12pt,a4paper,twoside]{ctexrep}
+
+% 页面与字体：按学院规范设置
+\usepackage[left=2.8cm,right=2.2cm,top=2.5cm,bottom=2.4cm,head=1.7cm,foot=1.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{afterpage}
+\usepackage{caption}
+\usepackage{etoolbox}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{gbt7714}
+\usepackage{tocloft}
+\newif\ifIncludeAppendices
+\input{content.tex}
+
+\numberwithin{equation}{chapter}
+\numberwithin{figure}{chapter}
+\numberwithin{table}{chapter}
+\renewcommand{\theequation}{\thechapter-\arabic{equation}}
+\renewcommand{\thefigure}{\thechapter-\arabic{figure}}
+\renewcommand{\thetable}{\thechapter-\arabic{table}}
+
+\setmainfont[
+  Path=/usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/,
+  BoldFont=texgyretermes-bold.otf,
+  ItalicFont=texgyretermes-italic.otf,
+  BoldItalicFont=texgyretermes-bolditalic.otf
+]{texgyretermes-regular.otf}
+\setsansfont[Path=/usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/]{texgyreheros-regular.otf}
+\setCJKmainfont[Path=/usr/local/texlive/2026/texmf-dist/fonts/opentype/public/fandol/]{FandolSong-Regular.otf}
+\setCJKsansfont[AutoFakeBold=2,Path=/usr/local/texlive/2026/texmf-dist/fonts/opentype/public/fandol/]{FandolHei-Regular.otf}
+\setCJKfamilyfont{zhhei}[AutoFakeBold=2,Path=/usr/local/texlive/2026/texmf-dist/fonts/opentype/public/fandol/]{FandolHei-Regular.otf}
+\setCJKfamilyfont{stkaiti}[FakeBold=1.8,Path=/usr/local/texlive/2026/texmf-dist/fonts/opentype/public/fandol/]{FandolKai-Regular.otf}
+\setCJKfamilyfont{coverlabel}[FakeBold=1.5,Path=/usr/local/texlive/2026/texmf-dist/fonts/opentype/public/fandol/]{FandolSong-Regular.otf}
+\setCJKfamilyfont{covervalue}[Path=/usr/local/texlive/2026/texmf-dist/fonts/opentype/public/fandol/]{FandolKai-Regular.otf}
+\newcommand{\stkaiti}{\CJKfamily{stkaiti}}
+\newcommand{\coverlabel}{\CJKfamily{coverlabel}}
+\newcommand{\covervalue}{\CJKfamily{covervalue}}
+\newlength{\CoverTitleWidth}
+\newsavebox{\CoverTitleBox}
+
+% 正文固定行距 22 磅
+\setlength{\baselineskip}{22pt}
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{2em}
+
+% 页眉页脚：奇偶页不同，页码从正文开始
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[CO]{\songti\zihao{-5} \HeaderLeft}
+\fancyhead[CE]{\songti\zihao{-5} \HeaderRight}
+\fancyfoot[C]{\songti\zihao{-5} \thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \fancyhead[CO]{\songti\zihao{-5} \HeaderLeft}
+  \fancyhead[CE]{\songti\zihao{-5} \HeaderRight}
+  \fancyfoot[C]{\songti\zihao{-5} \thepage}
+  \renewcommand{\headrulewidth}{0.4pt}
+}
+
+% 理工类标题序号：1、1.1、1.1.1
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\titleformat{\chapter}[block]{\heiti\fontsize{12pt}{22pt}\selectfont}{\thechapter}{1em}{}
+\titleformat{name=chapter,numberless}[block]{\centering\heiti\fontsize{12pt}{22pt}\selectfont}{}{}{}
+\titleformat{\section}[block]{\songti\fontsize{10.5pt}{22pt}\selectfont}{\thesection}{1em}{}
+\titleformat{\subsection}[block]{\songti\fontsize{10.5pt}{22pt}\selectfont}{\thesubsection}{1em}{}
+\titlespacing*{\chapter}{0pt}{0pt}{0pt}
+\titlespacing*{\section}{0pt}{0pt}{0pt}
+\titlespacing*{\subsection}{0pt}{0pt}{0pt}
+
+\renewcommand{\contentsname}{\makebox[\textwidth][c]{\ContentsTitle}}
+\renewcommand{\bibname}{\ReferenceHeading}
+\ctexset{chapter/name={,},chapter/number=\arabic{chapter}}
+% 目录按附件 3：四号黑体标题，小四号宋体，固定 22 磅行距
+\renewcommand{\cfttoctitlefont}{\centering\heiti\fontsize{14pt}{22pt}\selectfont}
+\renewcommand{\cftaftertoctitle}{\par}
+\setlength{\cftbeforetoctitleskip}{24pt}
+\setlength{\cftaftertoctitleskip}{18pt}
+\renewcommand{\cftchapfont}{\songti\fontsize{12pt}{22pt}\selectfont}
+\renewcommand{\cftchappagefont}{\songti\fontsize{12pt}{22pt}\selectfont}
+\renewcommand{\cftsecfont}{\songti\fontsize{12pt}{22pt}\selectfont}
+\renewcommand{\cftsecpagefont}{\songti\fontsize{12pt}{22pt}\selectfont}
+\renewcommand{\cftsubsecfont}{\songti\fontsize{12pt}{22pt}\selectfont}
+\renewcommand{\cftsubsecpagefont}{\songti\fontsize{12pt}{22pt}\selectfont}
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}}
+\setlength{\cftchapindent}{0pt}
+\setlength{\cftchapnumwidth}{25pt}
+\setlength{\cftsecindent}{42pt}
+\setlength{\cftsecnumwidth}{41pt}
+\setlength{\cftsubsecindent}{63pt}
+\setlength{\cftsubsecnumwidth}{41pt}
+\setlength{\cftbeforechapskip}{0pt}
+\setlength{\cftbeforesecskip}{0pt}
+\setlength{\cftbeforesubsecskip}{0pt}
+\DeclareCaptionFont{capfont}{\songti\fontsize{9pt}{12pt}\selectfont}
+\captionsetup{font=capfont,justification=centering}
+\newcommand{\ThesisTableFont}{\songti\fontsize{9pt}{22pt}\selectfont}
+
+% 公式由同步脚本生成固定 22 磅单行盒；保留默认显示公式零额外留白
+\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{0pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+\setlength{\jot}{0pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\captionsetup{skip=4pt}
+
+% 标题、正文、图表说明和附加文字由 content.tex 提供。
+
+\begin{document}
+
+% 封面：规范要求单独一页
+\newgeometry{left=2.8cm,right=2.8cm,top=2.54cm,bottom=2.54cm,head=1.7cm,foot=1.5cm}
+\begin{titlepage}
+  \thispagestyle{empty}
+  \begin{center}
+    \vspace*{-0.1cm}
+    \includegraphics[width=9.6cm]{figures/sanming_logo}\par
+    \vspace{0cm}
+    {\stkaiti\fontsize{42pt}{52pt}\selectfont \CoverHeading\par}
+  \end{center}
+  \vspace{2.73cm}
+  % 长题目以单行基线为底向上展开，不改变左侧标签和下方字段的位置。
+  \settowidth{\CoverTitleWidth}{{\songti\fontsize{14pt}{22pt}\selectfont \ThesisTitle}}
+  \setbox\CoverTitleBox=\hbox{{\songti\fontsize{14pt}{22pt}\selectfont
+    \parbox[b]{7.8cm}{\centering\CoverThesisTitle\par\vspace{-1.65em}\rule{\linewidth}{0.4pt}}}}
+  \begin{center}
+    \hspace*{0.4cm}\begin{tabular}{@{}p{2.8cm}p{7.8cm}@{}}
+      {\raisebox{-31pt}{\coverlabel\fontsize{16pt}{22pt}\selectfont \TitleLabel}} &
+        {\songti\fontsize{14pt}{22pt}\selectfont
+          \ifdim\CoverTitleWidth>7.8cm
+            \vphantom{\underline{\makebox[7.8cm][c]{\ThesisTitle}}}%
+            \smash{\raisebox{-31pt}{\usebox{\CoverTitleBox}}}
+          \else
+            \raisebox{-31pt}{\underline{\makebox[7.8cm][c]{\ThesisTitle}}}
+          \fi} \\
+      \noalign{\vskip 0.3em}
+      {\coverlabel\fontsize{16pt}{22pt}\selectfont \MajorLabel} &
+        {\covervalue\fontsize{14pt}{22pt}\selectfont \underline{\makebox[7.8cm][c]{\ThesisMajor}}} \\
+      \noalign{\vskip 0.5em}
+      {\coverlabel\fontsize{16pt}{22pt}\selectfont \NameLabel} &
+        {\covervalue\fontsize{14pt}{22pt}\selectfont \underline{\makebox[7.8cm][c]{\ThesisAuthor}}} \\
+      \noalign{\vskip 0.5em}
+      {\coverlabel\fontsize{16pt}{22pt}\selectfont \StudentIDLabel} &
+        {\rmfamily\fontsize{14pt}{22pt}\selectfont \underline{\makebox[7.8cm][c]{\ThesisStudentID}}} \\
+      \noalign{\vskip 0.5em}
+      {\coverlabel\fontsize{16pt}{22pt}\selectfont \AdvisorLabel} &
+        {\covervalue\fontsize{14pt}{22pt}\selectfont \underline{\makebox[7.8cm][c]{\ThesisAdvisor}}}
+    \end{tabular}
+  \end{center}
+  \vspace{1.3cm}
+  \begin{center}
+    {\songti\fontsize{16pt}{24pt}\selectfont \ThesisDate\par}
+  \end{center}
+\end{titlepage}
+\restoregeometry
+\pagestyle{empty}
+
+% 目录：单独一页
+\pagenumbering{gobble}
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}}
+\pagestyle{empty}
+\begingroup
+  \songti
+  \renewcommand{\baselinestretch}{1}
+  \fontsize{12pt}{22pt}\selectfont
+  \tableofcontents
+\endgroup
+\clearpage
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \fancyhead[CO]{\songti\zihao{-5} \HeaderLeft}
+  \fancyhead[CE]{\songti\zihao{-5} \HeaderRight}
+  \fancyfoot[C]{\songti\zihao{-5} \thepage}
+  \renewcommand{\headrulewidth}{0.4pt}
+  \renewcommand{\footrulewidth}{0pt}}
+
+\begin{center}
+  {\heiti\fontsize{14pt}{22pt}\selectfont \ThesisTitle\par}
+  \vspace{0.5em}
+  {\songti\zihao{-4} \ThesisAuthor\par}
+  {\songti\zihao{5} \ThesisAffiliation\par}
+\end{center}
+
+{\renewcommand{\baselinestretch}{1}\fangsong\fontsize{10.5pt}{22pt}\selectfont
+\noindent{\heiti\fontsize{12pt}{22pt}\selectfont \AbstractHeading}\AbstractText\par}
+
+\vspace{0.5em}
+{\renewcommand{\baselinestretch}{1}\fangsong\fontsize{10.5pt}{22pt}\selectfont
+\noindent{\heiti\fontsize{12pt}{22pt}\selectfont \KeywordsHeading}\KeywordsText\par}
+
+% 正文从第一章开始编为第 1 页
+\clearpage
+\pagestyle{fancy}
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\songti\fontsize{10.5pt}{22pt}\selectfont
+\setlength{\parindent}{2em}
+
+\BodyContent
+\clearpage
+\addcontentsline{toc}{chapter}{\ReferenceHeading}
+\begingroup
+  \renewcommand{\bibname}{\heiti\fontsize{10.5pt}{22pt}\selectfont \ReferenceHeading}
+  \renewcommand{\bibfont}{\songti\fontsize{9pt}{22pt}\selectfont}
+  \setlength{\bibhang}{22pt}
+  \setlength{\bibsep}{0pt}
+  \renewcommand{\bibnumfmt}[1]{[#1]}
+  \makeatletter
+  \let\originalbibsetup\@bibsetup
+  \renewcommand{\@bibsetup}[1]{\originalbibsetup{#1}\setlength{\leftmargin}{22pt}}
+  \makeatother
+  \bibliographystyle{gbt7714-numerical}
+  \bibliography{references/refs}
+\endgroup
+
+% 英文摘要单独一页
+\clearpage
+\addcontentsline{toc}{chapter}{\EnglishContentsTitle}
+\begin{center}
+  {\rmfamily\fontsize{12pt}{22pt}\selectfont \EnglishTitle\par}
+  \vspace{1.2em}
+  {\rmfamily\fontsize{12pt}{22pt}\selectfont \EnglishAuthor\par}
+  {\rmfamily\fontsize{10.5pt}{22pt}\selectfont \EnglishAffiliation\par}
+\end{center}
+
+\vspace{0.8em}
+\noindent{\rmfamily\bfseries\fontsize{12pt}{22pt}\selectfont \EnglishAbstractHeading}{\rmfamily\fontsize{10.5pt}{22pt}\selectfont \EnglishAbstractText}
+
+\vspace{0.5em}
+\noindent{\rmfamily\bfseries\fontsize{12pt}{22pt}\selectfont \EnglishKeywordsHeading}{\rmfamily\fontsize{10.5pt}{22pt}\selectfont \EnglishKeywordsText}
+
+% 致谢单独一页
+\clearpage
+\begin{center}
+  {\heiti\fontsize{12pt}{22pt}\selectfont \AcknowledgmentsHeading\par}
+\end{center}
+\addcontentsline{toc}{chapter}{\AcknowledgmentsHeading}
+\setlength{\parindent}{2em}
+\songti\fontsize{10.5pt}{22pt}\selectfont
+\hspace*{2em}\AcknowledgmentsText
+
+% 承诺书与授权书合并一页
+\clearpage
+\addcontentsline{toc}{chapter}{\CommitmentHeading}
+\begingroup
+\fangsong\fontsize{14.75pt}{23pt}\selectfont
+\setlength{\baselineskip}{23pt}
+\setlength{\parindent}{2em}
+\begin{center}
+  {\heiti\fontsize{20pt}{28pt}\selectfont \CommitmentTitle}
+\end{center}
+
+\vspace{-13pt}
+
+\CommitmentContent
+\endgroup
+
+% 保留可填写的附录示例页。定稿时可替换占位内容，并删除不需要的附录。
+\ifIncludeAppendices
+\clearpage
+\addcontentsline{toc}{chapter}{\AppendixOneHeading}
+\noindent{\heiti\fontsize{12pt}{22pt}\selectfont \AppendixOneHeading\par}
+\vspace{0.8em}
+\noindent{\songti\zihao{5} \AppendixOneContent}
+
+\clearpage
+\addcontentsline{toc}{chapter}{\AppendixTwoHeading}
+\noindent{\heiti\fontsize{12pt}{22pt}\selectfont \AppendixTwoHeading\par}
+\vspace{0.8em}
+\noindent{\songti\zihao{5} \AppendixTwoContent}
+
+\clearpage
+\addcontentsline{toc}{chapter}{\AppendixThreeHeading}
+\noindent{\heiti\fontsize{12pt}{22pt}\selectfont \AppendixThreeHeading\par}
+\vspace{0.8em}
+\noindent{\songti\zihao{5} \AppendixThreeContent}
+\fi
+
+\end{document}

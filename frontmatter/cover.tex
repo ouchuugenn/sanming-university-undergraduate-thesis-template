@@ -1,0 +1,25 @@
+\begin{titlepage}
+  \thispagestyle{empty}
+  \begin{center}
+    \vspace*{1.5cm}
+    \IfFileExists{figures/logo.pdf}
+      {\includegraphics[height=1.8cm]{figures/logo}\par\vspace{1cm}}
+      {\vspace{2cm}}
+    {\Large\bfseries \InstitutionName\par}
+    \vspace{1.2cm}
+    {\large \ThesisType\par}
+    \vspace{1.5cm}
+    {\LARGE\bfseries \ThesisTitle\par}
+    \vfill
+    \renewcommand{\arraystretch}{1.8}
+    \begin{tabular}{rl}
+      学院 / 系： & \DepartmentName \\
+      专业 / 项目： & \DegreeProgram \\
+      作者： & \ThesisAuthor \\
+      学号： & \StudentNumber \\
+      指导教师： & \AdvisorName \\
+      提交日期： & \SubmissionDate
+    \end{tabular}
+    \vfill
+  \end{center}
+\end{titlepage}
